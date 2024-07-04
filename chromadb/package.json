@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-chromadb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:grocery": "nodemon grocery-search.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chromadb": "^1.8.1",
+    "chromadb-default-embed": "^2.13.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
