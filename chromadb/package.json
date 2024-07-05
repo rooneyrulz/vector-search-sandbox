@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:grocery": "nodemon grocery-search.js"
+    "start:grocery": "nodemon grocery-search.js",
+    "start:book": "nodemon book-search.js"
   },
   "keywords": [],
   "author": "",
