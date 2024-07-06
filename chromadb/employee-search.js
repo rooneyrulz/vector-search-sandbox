@@ -2,55 +2,55 @@ const {
   getOrCreateCollection,
   generateEmbedding,
 } = require("./config/chromadb");
-const { books } = require("./data/books");
+const { employees } = require("./data/employees");
 
-const COLLECTION_NAME = "book_collection_new";
+const COLLECTION_NAME = "employee_collection_new";
 
 async function main() {
   try {
     const collection = await getOrCreateCollection(COLLECTION_NAME);
-    const bookRatings = books.map((book) => book.rating.toString());
-    const embeddingsData = await generateEmbedding(bookRatings);
+    const empExperiences = employees.map((emp) => emp.experience.toString());
+    const embeddingsData = await generateEmbedding(empExperiences);
     await collection.add({
-      ids: books.map((book) => book.id),
-      bookNames: books.map((book) => book.name),
-      documents: books.map((book) => book.rating.toString()),
+      ids: employees.map((emp) => emp.id),
+      employeeNames: employees.map((emp) => emp.name),
+      documents: employees.map((emp) => emp.experience.toString()),
       embeddings: embeddingsData,
     });
     // const allItems = await collection.get();
     // const allItems = await collection.get({include:["documents", "embeddings", "metadatas"]});
     // console.log(allItems);
-    await performSimilaritySearch(collection, books);
+    await performSimilaritySearch(collection, employees);
   } catch (error) {
     console.error("Error:", error);
   }
 }
 
-async function performSimilaritySearch(collection, bookList) {
+async function performSimilaritySearch(collection, employeeList) {
   try {
-    const queryTerm = "4.4";
+    const queryTerm = "8";
     const results = await collection.query({
       collection: COLLECTION_NAME,
       queryTexts: [queryTerm],
       n: 3,
     });
     if (!results || results.length === 0) {
-      console.log(`No books found with ratings similar to ${queryTerm}`);
+      console.log(`No employees found with experience similar to ${queryTerm}`);
       return;
     }
     const queryTermScore = results.distances[0][0];
     console.log(`Score for query term "${queryTerm}": ${queryTermScore}`);
-    console.log(`Top 3 books with ratings similar to ${queryTerm}:`);
+    console.log(`Top 3 employees with experience similar to ${queryTerm}:`);
     for (let i = 0; i < 3; i++) {
       const id = results.ids[0][i]; // Get ID from 'ids' array
       const score = results.distances[0][i]; // Get score from 'distances' array
 
-      const book = bookList.find((bk) => bk.id === id);
-      if (!book) {
+      const employee = employeeList.find((emp) => emp.id === id);
+      if (!employee) {
         console.log(` - ID: ${id}, Score: ${score}`);
       } else {
         console.log(
-          ` - ID: ${book.id}, Title: '${book.title}', Rating: ${book.rating}, Score: ${score}`
+          ` - ID: ${employee.id}, Name: '${employee.name}', Exp: ${employee.experience}, Score: ${score}`
         );
       }
     }

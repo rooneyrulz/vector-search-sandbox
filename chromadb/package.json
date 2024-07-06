@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start:grocery": "nodemon grocery-search.js",
-    "start:book": "nodemon book-search.js"
+    "start:book": "nodemon book-search.js",
+    "start:employee": "nodemon employee-search.js"
   },
   "keywords": [],
   "author": "",
